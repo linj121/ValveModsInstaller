@@ -48,8 +48,7 @@ while [ $is_download_finished != "true" ]; do
                             break
                             ;;
                         [nN][oO]|[nN] ) 
-                            is_download_finished=true
-                            break
+                            exit 0
                             ;;
                         * )
                             echo "Please answer yes or no"
