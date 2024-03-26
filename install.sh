@@ -1,9 +1,10 @@
 #!/bin/bash
 
-USERNAME="username"
-PASSWORD="password"
-L4D2_CLIENT_ID="550"
-CUSTOM_MAPS_PATH="./"
+USERNAME=your-username
+PASSWORD=your-password
+L4D2_CLIENT_ID=550
+CUSTOM_MAPS_PATH=./
+
 is_download_finished=false
 
 read -p "Enter mod id for l4d2:" MOD_ID
@@ -66,8 +67,10 @@ while [ $is_download_finished != "true" ]; do
     done
 done
 
-#find -L $CUSTOM_MAPS_PATH -type f -name '*_legacy.bin' -execdir bash -c 'mv -i -- "$1" "${1/legacy\.bin/legacy.vpk}"' Mover {} \;
-
+# Post processing for downloaded files:
+# Move all files to the root of the custom maps folder
+# And rename the files to the format of <workshop_id>.vpk
 find -L $CUSTOM_MAPS_PATH -type f -regex "^.*/[0-9]+/[0-9]+_legacy\.bin$" | sed -E "p;s|(^.*/[0-9]+)/[0-9]+_legacy\.bin$|\1.vpk|" | xargs -n2 mv 
 
+# Remove all empty directories
 find -L $CUSTOM_MAPS_PATH -type d -regex "^.+/[0-9]+$" | xargs -pn1 rm -r
